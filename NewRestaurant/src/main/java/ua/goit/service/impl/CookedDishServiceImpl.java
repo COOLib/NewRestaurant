@@ -5,10 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.DAO.*;
 import ua.goit.controller.HCookedDishController;
-import ua.goit.domain.Cook;
-import ua.goit.domain.CookedDish;
-import ua.goit.domain.Dish;
-import ua.goit.domain.Ingredient;
+import ua.goit.domain.*;
+import ua.goit.repository.*;
 import ua.goit.service.CookedDishService;
 
 import java.util.Date;
@@ -20,42 +18,48 @@ import java.util.List;
 @Service
 public class CookedDishServiceImpl implements CookedDishService {
 
+    @Autowired
+    private CookedDishreposiory cookedDishreposiory;
 
     @Autowired
-    private CookedDishDao cookedDishDao;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    private EmployeeDao employeeDao;
+    private DishRepository dishRepository;
 
     @Autowired
-    private DishDao dishDao;
+    private OrderRepository orderRepository;
 
     @Autowired
-    private OrderDao orderDao;
-
-    @Autowired
-    private StorageDao storageDao;
+    private StorageRepository storageRepository;
 
     @Transactional
     public void addCookedDish(String employeeName, String dishName, int orderNumber) {
 
         CookedDish cookedDish = new CookedDish();
-        Dish dish = dishDao.findDishByName(dishName);
+        Dish dish = dishRepository.findByName(dishName);
 
-        cookedDish.setCook((Cook) employeeDao.findEmployeeByName(employeeName));
+        cookedDish.setCook((Cook) employeeRepository.findByName(employeeName));
         cookedDish.setId(dish.getId());
         cookedDish.setDate(new Date());
 
-        if (orderDao.findOrderById(orderNumber).getDishes().contains(dishDao.findDishByName(dishName))) {
+        if (orderRepository.findById(orderNumber).get().getDishes().contains(dishRepository.findByName(dishName))) {
 
             cookedDish.setOrderNumber(orderNumber);
             List<Ingredient> ingredients = dish.getIngredient();
 
             for (Ingredient i : ingredients) {
-                storageDao.updateQuantity(i.getName(), -1);
+                Storage storage = storageRepository.findByIngredient_Name(i.getName());
+                int realQuantity = storage.getQuantity();
+                if (realQuantity - 1 >= 0) {
+                    storage.setQuantity(realQuantity - 1);
+                } else {
+
+                    throw new RuntimeException("Cannot update quantity at storage, because it will be less than zero.");
+                }
             }
 
-            cookedDishDao.addCookedDish(cookedDish);
+            cookedDishreposiory.save(cookedDish);
         } else {
             String s = "Order " + orderNumber + " doesn't contain a dish named " + dishName +
                     ". This dish can't be added to the list of the cooked dishes.";
@@ -67,6 +71,6 @@ public class CookedDishServiceImpl implements CookedDishService {
     @Transactional
     public List<CookedDish> getAllCookedDishes() {
 
-        return cookedDishDao.getAllCookedDishes();
+        return cookedDishreposiory.findAll();
     }
 }

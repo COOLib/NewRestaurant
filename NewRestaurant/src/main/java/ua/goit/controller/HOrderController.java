@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/restaurant/order")
+@RequestMapping(value = "/restaurant")
 public class HOrderController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class HOrderController {
     private static HttpHeaders responseHeaders = new HttpHeaders();
 
 
-    @RequestMapping(value = "/add", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/order", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -43,7 +43,7 @@ public class HOrderController {
 
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -53,7 +53,7 @@ public class HOrderController {
         return new ResponseEntity<>("{\"deleted\":\"" + id + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/turnToClosed/{id}", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "order/turnToClosed/{id}", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -63,7 +63,7 @@ public class HOrderController {
        return new ResponseEntity<>("{\"closed\":\"" + id + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -78,7 +78,7 @@ public class HOrderController {
         return result;
     }
 
-    @RequestMapping(value = "/getAllClosed", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/order/closed", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -93,7 +93,7 @@ public class HOrderController {
         return result;
     }
 
-    @RequestMapping(value = "/getAllOpened", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/order/opened", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -108,7 +108,7 @@ public class HOrderController {
         return result;
     }
 
-    @RequestMapping(value = "/addDishToOrder/{orderId}/{dishName}", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/order/dish/{orderId}/{dishName}", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -119,7 +119,7 @@ public class HOrderController {
 
     }
 
-    @RequestMapping(value = "/deleteDishFromOrder/{orderId}/{dishName}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/order/dish/{orderId}/{dishName}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody

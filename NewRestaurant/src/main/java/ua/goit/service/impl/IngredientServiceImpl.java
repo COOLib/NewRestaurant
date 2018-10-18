@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.domain.Ingredient;
 import ua.goit.DAO.IngredientDao;
+import ua.goit.repository.IngredientRepository;
 import ua.goit.service.IngredientService;
 
 import java.util.List;
@@ -16,12 +17,12 @@ import java.util.List;
 public class IngredientServiceImpl  implements IngredientService {
 
     @Autowired
-    private IngredientDao ingredientDao;
+    private IngredientRepository ingredientRepository;
 
     @Transactional
     public Ingredient getByName(String name) {
 
-        return ingredientDao.findIngredientByName(name);
+        return ingredientRepository.findByName(name);
     }
 
     @Transactional
@@ -29,14 +30,13 @@ public class IngredientServiceImpl  implements IngredientService {
 
         Ingredient ingredient = new Ingredient();
         ingredient.setName(name);
-        ingredientDao.addIngredient(ingredient);
-
+        ingredientRepository.save(ingredient);
         return ingredient;
     }
 
     @Transactional
     public List<Ingredient> getAllIngredients() {
 
-        return ingredientDao.allIngredients();
+        return ingredientRepository.findAll();
     }
 }

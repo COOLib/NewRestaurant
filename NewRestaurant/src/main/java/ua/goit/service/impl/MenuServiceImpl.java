@@ -7,6 +7,8 @@ import ua.goit.domain.Dish;
 import ua.goit.domain.Menu;
 import ua.goit.DAO.DishDao;
 import ua.goit.DAO.MenuDao;
+import ua.goit.repository.DishRepository;
+import ua.goit.repository.MenuRepository;
 import ua.goit.service.MenuService;
 
 import java.util.List;
@@ -23,10 +25,16 @@ public class MenuServiceImpl implements MenuService{
     @Autowired
     private DishDao dishDao;
 
+    @Autowired
+    private MenuRepository menuRepository;
+
+    @Autowired
+    private DishRepository dishRepository;
+
     @Transactional
     public List<Menu> getAllMenus() {
 
-        return menuDao.getAllMenus();
+        return menuRepository.findAll();
     }
 
     @Transactional
@@ -36,8 +44,7 @@ public class MenuServiceImpl implements MenuService{
 
         newMenu.setName(menu.getName());
         newMenu.setDishes(menu.getDishes());
-
-        menuDao.addMenu(menu);
+        menuRepository.save(menu);
 
         return newMenu;
     }
@@ -45,20 +52,22 @@ public class MenuServiceImpl implements MenuService{
     @Transactional
     public void deleteMenu(String name) {
 
-        menuDao.removeMenu(name);
+        menuRepository.deleteByName(name);
     }
 
     @Transactional
     public Menu getByName(String name) {
 
-        return menuDao.findMenuByName(name);
+        return menuRepository.findByName(name);
     }
 
     @Transactional
     public Dish addDishToMenu(String menuName, String dishName) {
 
-        Dish dish = dishDao.findDishByName(dishName);
-        menuDao.addDishToMenu(menuName, dishName);
+        Dish dish = dishRepository.findByName(dishName);
+        Menu menu = menuRepository.findByName(menuName);
+        menu.getDishes().add(dish);
+        menuRepository.save(menu);
 
         return dish;
     }
@@ -66,6 +75,9 @@ public class MenuServiceImpl implements MenuService{
     @Transactional
     public void deleteDishFromMenu(String menuName, String dishName) {
 
-        menuDao.removeDishFromMenu(menuName, dishName);
+        Menu menu = menuRepository.findByName(menuName);
+        Dish dish = dishRepository.findByName(dishName);
+        menu.getDishes().remove(dish);
+        menuRepository.save(menu);
     }
 }

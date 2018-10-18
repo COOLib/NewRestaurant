@@ -5,13 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.domain.Cook;
 import ua.goit.domain.Employee;
-import ua.goit.domain.Position;
 import ua.goit.domain.Waiter;
-import ua.goit.DAO.EmployeeDao;
 import ua.goit.repository.CookRepository;
+import ua.goit.repository.EmployeeRepository;
+import ua.goit.repository.WaiterRepository;
 import ua.goit.service.EmployeeService;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,51 +20,50 @@ import java.util.List;
 public class EmployeeServiceImpl  implements EmployeeService{
 
     @Autowired
-    private EmployeeDao employeeDao;
+    private CookRepository cookRepository;
 
     @Autowired
-    private CookRepository cookRepository;
+    private WaiterRepository waiterRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Transactional
     public Employee addEmployee(Employee employee) {
 
-        employeeDao.addEmployee(employee);
-
+        employeeRepository.save(employee);
         return employee;
     }
 
     @Transactional
     public Waiter addWaiter(Waiter waiter) {
 
-        employeeDao.addWaiter(waiter);
-
+        waiterRepository.save(waiter);
         return waiter;
     }
 
     @Transactional
     public Cook addCook(Cook cook) {
+
         cookRepository.save(cook);
-
-//        employeeDao.addCook(cook);
-
         return cook;
     }
 
     @Transactional
     public void deleteEmployee(String name) {
 
-        employeeDao.removeEmployee(name);
+        employeeRepository.deleteByName(name);
     }
 
     @Transactional
-    public Employee getByName(String name) {
+    public List<Employee> getByName(String name) {
 
-        return employeeDao.findEmployeeByName(name);
+        return employeeRepository.findByName(name);
     }
 
     @Transactional
     public List<Employee> getAllEmployees() {
 
-        return employeeDao.getAllEmployees();
+        return employeeRepository.findAll();
     }
 }

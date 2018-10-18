@@ -8,6 +8,8 @@ import ua.goit.domain.Order;
 import ua.goit.domain.Waiter;
 import ua.goit.DAO.DishDao;
 import ua.goit.DAO.OrderDao;
+import ua.goit.repository.DishRepository;
+import ua.goit.repository.OrderRepository;
 import ua.goit.service.OrderService;
 
 import java.util.Date;
@@ -21,7 +23,10 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
-    private OrderDao orderDao;
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private DishRepository dishRepository;
 
     @Autowired
     private DishDao dishDao;
@@ -30,66 +35,64 @@ public class OrderServiceImpl implements OrderService{
     public Order addOrder(Order order) {
 
         Order newOrder = new Order();
-        newOrder.setWaiter((Waiter) order.getWaiter());
+        newOrder.setWaiter(order.getWaiter());
         newOrder.setDishes(order.getDishes());
         newOrder.setTableNumber(order.getTableNumber());
         newOrder.setDate(new Date());
         newOrder.setIsClosed("opened");
 
-        orderDao.createNewOrder(order);
+        orderRepository.save(order);
         return newOrder;
-    }
-
-    private List<Dish> createDishes(List<String> dishes) {
-
-        List<Dish> result = dishes.stream().map(dishName -> dishDao.findDishByName(dishName)).collect(Collectors.toList());
-
-        return result;
     }
 
     @Transactional
     public void deleteOrder(int id) {
 
-        orderDao.removeOrder(id);
+        orderRepository.deleteById(id);
     }
 
     @Transactional
     public void turnToClosed(int id) {
 
-        orderDao.turnToClosed(id);
+        Order order = getById(id);
+        order.setIsClosed("closed");
+        orderRepository.save(order);
     }
 
     @Transactional
-    public Order getById(int id) {
+    public Order getById(Integer id) {
 
-        return orderDao.findOrderById(id);
+        return orderRepository.findById(id).get();
     }
 
     @Transactional
     public List<Order> getAllClosed() {
 
-        return orderDao.getAllClosedOrders();
+        return orderRepository.findAllByIsClosedEquals("closed");
     }
 
     @Transactional
     public List<Order> getAllOpened() {
 
-        return orderDao.getAllOpenedOrders();
+        return orderRepository.findAllByIsClosedEquals("opened");
     }
 
     @Transactional
     public Dish addDishToOrder(int orderId, String dishName) {
 
-        orderDao.addDishToOrder(orderId, dishName);
-
-        Dish dish = dishDao.findDishByName(dishName);
-
+        Dish dish = dishRepository.findByName(dishName);
+        Order order = orderRepository.getOne(orderId);
+        order.getDishes().add(dish);
+        orderRepository.save(order);
         return dish;
     }
 
     @Transactional
     public void deleteDishFromOrder(int orderId, String dishName) {
 
-        orderDao.deleteDishFromOrder(dishName, orderId);
+        Order order = orderRepository.getOne(orderId);
+        Dish dish = dishRepository.findByName(dishName);
+        order.getDishes().remove(dish);
+        orderRepository.save(order);
     }
 }

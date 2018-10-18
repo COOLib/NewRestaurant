@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.domain.Dish;
-import ua.goit.DAO.DishDao;
+import ua.goit.repository.DishRepository;
 import ua.goit.service.DishService;
 
 import java.util.List;
@@ -17,31 +17,30 @@ import java.util.List;
 public class DishServiceImpl implements DishService {
 
     @Autowired
-    private DishDao dishDao;
+    private DishRepository dishRepository;
 
     @Transactional
     public Dish addDish(Dish dish) {
 
-
-        dishDao.addDish(dish);
+        dishRepository.save(dish);
         return dish;
     }
 
     @Transactional
     public Dish getByName(String name) {
 
-        return dishDao.findDishByName(name);
+        return dishRepository.findByName(name);
     }
 
     @Transactional
     public List<Dish> getAllDishes() {
 
-        return dishDao.getAllDishes();
+        return dishRepository.findAll();
     }
 
     @Transactional
     public void deleteDish(String name) {
 
-        dishDao.removeDish(name);
+        dishRepository.deleteByName(name);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.goit.domain.Ingredient;
 import ua.goit.domain.Storage;
 import ua.goit.DAO.StorageDao;
+import ua.goit.repository.StorageRepository;
 import ua.goit.service.IngredientService;
 import ua.goit.service.StorageService;
 import ua.goit.service.impl.IngredientServiceImpl;
@@ -22,6 +23,9 @@ public class StorageServiceImpl implements StorageService {
     private StorageDao storageDao;
 
     @Autowired
+    private StorageRepository storageRepository;
+
+    @Autowired
     private IngredientService ingredientService;
 
     @Transactional
@@ -32,7 +36,10 @@ public class StorageServiceImpl implements StorageService {
         if (exist == null) {
             ingredientService.addIngredient(name);
             Ingredient ingredient = ingredientService.getByName(name);
-            storageDao.addIngredientToStorage(ingredient, quantity);
+            Storage storage = new Storage();
+            storage.setIngredient(ingredient);
+            storage.setQuantity(quantity);
+            storageRepository.save(storage);
         }
 
         return exist;
@@ -41,30 +48,38 @@ public class StorageServiceImpl implements StorageService {
     @Transactional
     public void removeIngredientFromStorage(String name) {
 
-        storageDao.removeIngredientFromStorage(name);
+        storageRepository.deleteByIngredient_Name(name);
+    }
+
+    @Transactional
+    public void updateQuantity(String ingredientName, int quantity) {
+
+        Storage storage = storageRepository.findByIngredient_Name(ingredientName);
+        int realQuantity = storage.getQuantity();
+
+        if (realQuantity + quantity >= 0) {
+            storage.setQuantity(realQuantity + quantity);
+        } else {
+
+            throw new RuntimeException("Cannot update quantity at storage, because it will be less than zero.");
+        }
     }
 
     @Transactional
     public List<Storage> getAllIngredients() {
 
-        return storageDao.getAllIngredients();
+        return storageRepository.findAll();
     }
 
     @Transactional
     public List<Storage> getEndingIngredients() {
 
-        return storageDao.getAllEndingIngredients();
+        return storageRepository.findAllByQuantityIsLessThan(10);
     }
 
     @Transactional
     public Storage getByIngredientName(String name) {
 
-        return storageDao.findIngredientByName(name);
-    }
-
-    @Transactional
-    public void updateQuantity(String ingredientName, int addingAmount) {
-
-        storageDao.updateQuantity(ingredientName, addingAmount);
+        return storageRepository.findByIngredient_Name(name);
     }
 }

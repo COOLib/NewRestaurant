@@ -15,7 +15,7 @@ public interface OrderService {
     Order addOrder(Order order);
     void deleteOrder(int id);
     void turnToClosed(int id);
-    Order getById(int id);
+    Order getById(Integer id);
     List<Order> getAllClosed();
     List<Order> getAllOpened();
     Dish addDishToOrder(int orderId, String dishName);

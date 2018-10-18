@@ -13,14 +13,14 @@ import ua.goit.service.impl.DishServiceImpl;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(value = "/restaurant/dish")
+@RequestMapping(value = "/restaurant")
 public class HDishController {
 
     @Autowired
     private DishService dishService;
     private static HttpHeaders responseHeaders = new HttpHeaders();
 
-    @RequestMapping(value = "/add", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/dish", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -30,7 +30,7 @@ public class HDishController {
         return new ResponseEntity<>("{\"dish\":\"" + dish.getName() + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete/{name}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/dish/{name}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -40,7 +40,7 @@ public class HDishController {
         return new ResponseEntity<>("{\"deleted\":\"" + name + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/dish/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -55,7 +55,7 @@ public class HDishController {
         return result;
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/dish", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody

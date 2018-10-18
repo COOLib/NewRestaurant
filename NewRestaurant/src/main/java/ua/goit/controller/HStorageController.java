@@ -13,7 +13,7 @@ import ua.goit.service.StorageService;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(value = "/restaurant/storage")
+@RequestMapping(value = "/restaurant")
 public class HStorageController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class HStorageController {
     private static HttpHeaders responseHeaders = new HttpHeaders();
 
 
-    @RequestMapping(value = "/add/{ingredientName}/{quantity}", method = RequestMethod.POST, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/storage/{ingredientName}/{quantity}", method = RequestMethod.POST, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -36,7 +36,7 @@ public class HStorageController {
 
     }
 
-    @RequestMapping(value = "/add/{ingredientName}/{quantity}", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/storage/{ingredientName}/{quantity}", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -46,7 +46,7 @@ public class HStorageController {
         return new ResponseEntity<>("{\"ingredient\":\"" + ingredientName + "\",\"quantity\":" + quantity + "}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete/{name}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/storage/{name}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -56,7 +56,7 @@ public class HStorageController {
         return new ResponseEntity<>("{\"deleted\":\"" + name + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/storage", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -71,7 +71,7 @@ public class HStorageController {
         return result;
     }
 
-    @RequestMapping(value = "/getEnding", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/storage/ending", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -86,7 +86,7 @@ public class HStorageController {
         return result;
     }
 
-    @RequestMapping(value = "/get/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/storage/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody

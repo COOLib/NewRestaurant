@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/restaurant/menu")
+@RequestMapping(value = "/restaurant")
 public class HMenuController {
 
 
@@ -27,7 +27,7 @@ public class HMenuController {
 
     private static HttpHeaders responseHeaders = new HttpHeaders();
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/menu", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -42,7 +42,7 @@ public class HMenuController {
         return result;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/menu", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -52,7 +52,7 @@ public class HMenuController {
         return new ResponseEntity<>("{\"menu\":\"" + menu.getName() + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete/{name}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/menu/{name}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -62,7 +62,7 @@ public class HMenuController {
         return new ResponseEntity<>("{\"deleted\":\"" + name + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/menu/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -77,7 +77,7 @@ public class HMenuController {
         return result;
     }
 
-    @RequestMapping(value = "/addToMenu/{menuName}/{dishName}", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/menu/{menuName}/{dishName}", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -87,7 +87,7 @@ public class HMenuController {
         return new ResponseEntity<>("{\"menu\":\"" + menuName + "\",\"dish\":\"" + dishName + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/deleteFromMenu/{menuName}/{dishName}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/menu/{menuName}/{dishName}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody

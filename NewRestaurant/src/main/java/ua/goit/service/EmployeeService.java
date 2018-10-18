@@ -17,6 +17,6 @@ public interface EmployeeService {
     Waiter addWaiter(Waiter waiter);
     Cook addCook(Cook cook);
     void deleteEmployee(String name);
-    Employee getByName(String name);
+    List<Employee> getByName(String name);
     List<Employee> getAllEmployees();
 }

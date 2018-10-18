@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/restaurant/employee")
+@RequestMapping(value = "/restaurant")
 public class HEmployeeController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class HEmployeeController {
     private static HttpHeaders responseHeaders = new HttpHeaders();
 
 
-    @RequestMapping(value = "/add", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/employee", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -34,7 +34,7 @@ public class HEmployeeController {
         return new ResponseEntity<>("{\"employee\":\"" + employee.getName() + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addWaiter", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/employee/addWaiter", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -44,7 +44,7 @@ public class HEmployeeController {
         return new ResponseEntity<>("{\"waiter\":\"" + waiter.getName() + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/addCook", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/employee/addCook", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -54,7 +54,7 @@ public class HEmployeeController {
         return new ResponseEntity<>("{\"cook\":\"" + cook.getName() + "\"}", responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/delete/{name}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/employee/{name}", method = RequestMethod.DELETE, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -65,7 +65,7 @@ public class HEmployeeController {
 
     }
 
-    @RequestMapping(value = "/get/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/employee/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -80,7 +80,7 @@ public class HEmployeeController {
         return result;
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/employee", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody

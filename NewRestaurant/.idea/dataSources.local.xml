@@ -2,14 +2,15 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="PostgreSQL - Restaurant@localhost" uuid="a2bb392c-f906-466f-82ef-b077e99a4f18">
-      <database-info product="PostgreSQL" version="10.3" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.1">
+      <database-info product="PostgreSQL" version="10.3" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.1" family="POSTGRES" exact-version="10.3">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>postgres</user-name>
-      <introspection-scope>postgres:pg_catalog,postgres,public</introspection-scope>
+      <introspection-schemas>Restaurant:public|postgres:pg_catalog,postgres,public</introspection-schemas>
       <resolve-scope>postgres:postgres,public</resolve-scope>
+      <unqualified-resolve-schemas>postgres:postgres,public</unqualified-resolve-schemas>
     </data-source>
   </component>
 </project>

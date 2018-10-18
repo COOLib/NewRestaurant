@@ -14,7 +14,7 @@ import ua.goit.service.impl.IngredientServiceImpl;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(value = "/restaurant/ingredient")
+@RequestMapping(value = "/restaurant")
 public class HIngredientController {
 
     @Autowired
@@ -22,7 +22,7 @@ public class HIngredientController {
     private static HttpHeaders responseHeaders = new HttpHeaders();
 
 
-    @RequestMapping(value = "/get/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/ingredient/{name}", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -37,7 +37,7 @@ public class HIngredientController {
         return result;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/ingredient", method = RequestMethod.PUT, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
@@ -48,7 +48,7 @@ public class HIngredientController {
 
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
+    @RequestMapping(value = "/ingredient", method = RequestMethod.GET, headers = {"Content-Type=application/json"},
             produces = {"application/json; charset=UTF-8"})
     public
     @ResponseBody
